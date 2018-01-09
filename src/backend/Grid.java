@@ -8,9 +8,9 @@ import java.awt.*;
 
 public class Grid {
 
-    private static final int NUM_COLS = 30;
-    private static final int NUM_ROWS = 30;
-    private static final double UPDATE_TIME = 0.25;
+    private static final int NUM_COLS = 50;
+    private static final int NUM_ROWS = 50;
+    private static final double UPDATE_TIME = 0.1;
 
     private Cell[][] grid;
     private Canvas canvas;
@@ -35,7 +35,6 @@ public class Grid {
     public void clicked(double x, double y) {
         int xPos = (int) (x/cellWidth);
         int yPos = (int) (y/cellHeight);
-        System.out.println(xPos + " " + yPos);
         grid[xPos][yPos].setFilled(true);
         draw();
     }
@@ -60,13 +59,10 @@ public class Grid {
 
     public void update(double deltaTime) {
 
-        lastUpdate += deltaTime;
-        System.out.println(lastUpdate);
 
-        if (lastUpdate > UPDATE_TIME) {
+        if (lastUpdate >= UPDATE_TIME) {
 
-            lastUpdate = 0;
-
+            lastUpdate += deltaTime;
             Cell[][] newGrid = new Cell[NUM_COLS][NUM_ROWS];
             for (int i = 0; i < NUM_COLS; i++) {
                 for (int j = 0; j < NUM_ROWS; j++) {
@@ -76,6 +72,10 @@ public class Grid {
 
             grid = newGrid;
             draw();
+
+            lastUpdate = 0;
+        } else {
+            lastUpdate = UPDATE_TIME;
         }
     }
 

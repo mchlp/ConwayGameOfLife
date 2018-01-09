@@ -3,16 +3,15 @@ package frontend;
 import backend.Grid;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 
 public class Window extends Application {
@@ -22,7 +21,7 @@ public class Window extends Application {
     private long prevTime;
     private Canvas canvas;
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -42,7 +41,7 @@ public class Window extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                double deltaTime = (now-prevTime)/1E12;
+                double deltaTime = (now - prevTime) / 1E12;
                 onUpdate(deltaTime);
             }
         };
@@ -70,7 +69,10 @@ public class Window extends Application {
             @Override
             public void handle(MouseEvent event) {
                 if (paused) {
-                    grid.clicked(event.getX(), event.getY());
+                    if (event.getX() > 0 && event.getX() < canvas.getWidth() &&
+                            event.getY() > 0 && event.getY() < canvas.getHeight()) {
+                        grid.clicked(event.getX(), event.getY());
+                    }
                 }
             }
         });
